@@ -1,0 +1,35 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-performance-test
+  namespace: test
+  annotations:
+    # set the storage class you want to test
+    volume.beta.kubernetes.io/storage-class: glusterfs-storage
+spec:
+  # set the storage class you want to test
+  storageClassName: glusterfs-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pvc-performance-test
+  namespace: test
+spec:
+  volumes:
+    - name: pvc-performance-test
+      persistentVolumeClaim:
+       claimName: pvc-performance-test
+  containers:
+    - name: pvc-performance-test
+      image: siw36/pvc-performance-test
+      volumeMounts:
+        - mountPath: "/mnt/pvc/"
+          name: pvc-performance-test
