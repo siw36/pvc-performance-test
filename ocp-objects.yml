@@ -23,6 +23,7 @@ metadata:
   name: pvc-performance-test
   namespace: test
 spec:
+  restartPolicy: Never
   volumes:
     - name: pvc-performance-test
       persistentVolumeClaim:
